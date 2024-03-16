@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <ImagesLayout />
-  </div>
+  <ImagesLayout />
 </template>
 <script setup>
   import ImagesLayout from './Layouts/ImagesLayout.vue'
@@ -14,5 +12,6 @@
       rgba(205, 239, 236, 1) 0%,
       rgba(205, 239, 236, 0.5) 100%
     );
+    overflow: hidden;
   }
 </style>

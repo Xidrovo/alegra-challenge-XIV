@@ -1,28 +1,31 @@
 <template lang="">
-  <div class="min-h-screen min-w-screen">
-    <header class="bg-primary bg-opacity-25 p-10">
-      <article class="flex flex-col items-center space-y-4">
-        <section>
-          <img src="/logo.svg" alt="Logo" />
-        </section>
-        <section class="ml-24 font-semibold text-4xl">
-          <h2>Imágenes del mundo</h2>
-        </section>
-      </article>
+  <div class="h-screen min-w-full relative">
+    <header
+      class="bg-primary bg-opacity-25 p-10 h-1/4 flex flex-col justify-center items-center"
+    >
+      <section>
+        <img src="/logo.svg" alt="Logo" />
+      </section>
+      <section class="font-semibold text-4xl">
+        <h2>Imágenes del mundo</h2>
+      </section>
     </header>
-    <section class="p-10 w-full bg-slate-100 bg-opacity-50 min-h-screen">
+    <section
+      class="p-10 w-full bg-slate-100 bg-opacity-50 h-full overflow-y-auto"
+    >
       <Searcher @load-vendors="loadVendors" />
-      <section class="grid grid-cols-3" v-if="showSellers">
-        <article v-for="seller in fullSellerData" class="h-full">
+      <section class="grid grid-cols-3 gap-2" v-if="showSellers">
+        <article v-for="seller in fullSellerData">
           <seller-box
             :url="seller.url"
             :description="seller.description"
             :fullUrl="seller.fullUrl"
             :sellerData="mapSellerInfo(seller)"
+            @show-modal-image="showModalImage"
           />
         </article>
       </section>
-      <section v-else>
+      <section v-else class="h-2/3 flex flex-col justify-center">
         <EmptyMessage />
       </section>
     </section>
@@ -31,6 +34,9 @@
     <ImageModal
       :fullUrl="currentImage.url"
       :description="currentImage.description"
+      :sellerId="currentImage.sellerId"
+      @exit-button-action="closeModalImage"
+      @up-vote="upVote"
     />
   </div>
 </template>
@@ -56,9 +62,10 @@
       return {
         sellersArray: [],
         fullSellerData: [],
+        sellerPoints: {},
         showSellers: false,
         showImageModal: false,
-        currentImage: { url: '', description: '' }
+        currentImage: { url: '', description: '', sellerId: -1 }
       }
     },
     async mounted() {
@@ -93,9 +100,25 @@
       showModalImage(image) {
         this.currentImage = {
           url: image.fullUrl,
-          description: image.description
+          description: image.description,
+          sellerId: image.sellerId
         }
         this.showImageModal = true
+      },
+      upVote(sellerId) {
+        if (this.sellerPoints[sellerId]) {
+          this.sellerPoints[sellerId] = this.sellerPoints[sellerId] + 3
+          if (this.sellerPoints[sellerId] > 20) this.sellerPoints[sellerId] = 20
+        } else {
+          this.sellerPoints[sellerId] = 3
+        }
+        if (this.sellerPoints[sellerId] >= 20) {
+          console.log('we have a winner!!!')
+        }
+      },
+      closeModalImage() {
+        this.showImageModal = false
+        this.currentImage = { url: '', description: '', sellerId: -1 }
       }
     }
   }
