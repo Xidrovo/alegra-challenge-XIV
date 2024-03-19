@@ -19,17 +19,18 @@
       <slot></slot>
       <footer class="flex flex-row justify-center space-x-12 items-baseline">
         <button
-          class="px-4 py-2 bg-secondary text-white font-semibold rounded-md hover:bg-secondary-light hover:text-secondary"
-          @click="$emit('exitButtonAction')"
+          class="px-4 py-2 bg-secondary text-white font-semibold rounded-md hover:bg-secondary-light hover:text-secondary disabled:bg-secondary-dark disabled:cursor-not-allowed"
+          @click="$emit('confirmButtonAction')"
+          :disabled="!buttonActionEnabled"
           v-if="ConfirmButtonText"
         >
-          Confirm
+          {{ ConfirmButtonText || 'Confirm' }}
         </button>
         <button
           class="px-4 py-2 text-secondary font-semibold hover:text-secondary-light"
           @click="$emit('exitButtonAction')"
         >
-          {{ ConfirmButtonText || 'Salir' }}
+          {{ ExitbuttonText || 'Salir' }}
         </button>
       </footer>
     </div>
@@ -41,7 +42,7 @@
 
   export default {
     name: 'Modal',
-    emits: ['exitButtonAction'],
+    emits: ['exitButtonAction', 'confirmButtonAction'],
     props: {
       title: {
         type: String,
@@ -58,6 +59,10 @@
       ConfirmButtonAction: {
         type: Object,
         default: () => {}
+      },
+      buttonActionEnabled: {
+        type: Boolean,
+        default: true
       }
     }
   }

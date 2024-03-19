@@ -10,28 +10,25 @@
     <button
       @click="getImages"
       :class="[
-        'h-12 rounded-lg px-8 py-2 bg-secondary text-white font-semibold ',
+        'h-12 rounded-lg px-8 py-2 bg-secondary text-white font-semibold disabled:bg-secondary-dark ',
         `${!loading ? 'hover:bg-secondary-light' : 'cursor-not-allowed'}`
       ]"
       :disabled="loading"
     >
-      <p v-if="!loading">Buscar</p>
-      <div v-else>
-        <Loading extraClass="absolute inset-0" />
-      </div>
+      <p>Buscar</p>
     </button>
     <br />
   </section>
 </template>
 <script>
   import { getImages } from '../services/imageService'
-  import Loading from './Loading.vue'
+  import { uuid } from 'vue-uuid'
 
   import { useRuntimeConfig } from '#app'
 
   export default {
     name: 'searcher',
-    emits: ['loadVendors'],
+    emits: ['loadVendors', 'newSearch'],
     data() {
       return {
         searchTerm: '',
@@ -49,6 +46,8 @@
     },
     methods: {
       async getImages() {
+        if (!this.searchTerm) return
+        const newSearch = uuid.v1()
         const config = useRuntimeConfig()
         this.loading = true
         const returnedImages = await getImages(
@@ -58,6 +57,7 @@
         )
         this.loading = false
         this.$emit('loadVendors', returnedImages)
+        this.$emit('newSearch', newSearch)
         this.images = returnedImages
         this.imageCounter++
       }

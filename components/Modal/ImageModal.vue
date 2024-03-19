@@ -6,14 +6,15 @@
         target="_blank"
         class="h-full w-full flex justify-center"
       >
-        <img :src="fullUrl" :alt="description" class="object-cover h-full" />
+        <img :src="url" :alt="description" class="object-cover h-full" />
       </a>
       <section class="absolute bottom-0 left-0">
         <button
-          class="px-2 py-4 rounded-md bg-primary text-white font-semibold"
-          @click="$emit('upVote', sellerId)"
+          class="px-4 py-4 rounded-full bg-primary bg-opacity-75 flex flex-col justify-center"
+          @click="upVote"
         >
-          Love it!
+          <EmptyHeartIcon v-if="chosen" />
+          <HeartIcon v-else />
         </button>
       </section>
     </article>
@@ -22,13 +23,30 @@
 
 <script>
   import Modal from './Modal.vue'
+  import EmptyHeartIcon from '../Icons/EmptyHeartIcon.vue'
+  import HeartIcon from '../Icons/HeartIcon.vue'
+
   export default {
     name: 'ImageModal',
     emit: ['upVote'],
     components: {
-      Modal
+      Modal,
+      EmptyHeartIcon,
+      HeartIcon
+    },
+    data() {
+      return {
+        chosen: false
+      }
+    },
+    mounted() {
+      this.chosen = !this.voted
     },
     props: {
+      url: {
+        type: String,
+        required: true
+      },
       fullUrl: {
         type: String,
         required: true
@@ -40,6 +58,16 @@
       sellerId: {
         type: String,
         default: ''
+      },
+      voted: {
+        type: Boolean,
+        default: false
+      }
+    },
+    methods: {
+      upVote() {
+        this.chosen = !this.chosen
+        this.$emit('upVote', this.sellerId)
       }
     }
   }
