@@ -4,9 +4,13 @@
     <div
       class="rounded-lg absolute inset-0 bg-slate-700 opacity-0 group-hover:opacity-75 transition-opacity duration-300"
     ></div>
-    <section class="absolute top-0 w-full flex justify-between py-4 px-4">
+    <section
+      class="absolute top-0 w-full flex justify-between py-4 px-2 md:px-4"
+    >
       <!-- score section -->
-      <div class="rounded-lg h-8 px-8 p-2 font-semibold bg-primary text-white">
+      <div
+        class="rounded-lg md:h-8 px-2 md:px-8 p-2 font-semibold bg-primary text-white"
+      >
         <section
           class="flex flex-col items-center my-auto justify-center h-full"
         >
@@ -14,14 +18,14 @@
         </section>
       </div>
       <section
-        class="text font-bold px-16 py-2 bg-white bg-opacity-50 items-center my-auto flex flex-col items-center my-auto justify-center h-full rounded-lg h-8"
+        class="text font-bold px-4 md:px-16 py-2 bg-white bg-opacity-50 items-center my-auto flex flex-col items-center my-auto justify-center h-full rounded-lg md:h-8"
       >
         <p>{{ sellerData.name }}</p>
       </section>
     </section>
-    <article class="absolute bottom-0 flex w-full h-1/4">
+    <article class="absolute bottom-0 flex w-full md:h-1/4">
       <div
-        class="relative px-2 py-4 bg-secondary bg-opacity-75 w-full rounded-b-lg"
+        class="relative px-2 md:py-4 bg-secondary bg-opacity-75 w-full rounded-b-lg"
       >
         <p class="text-xl px-2 py-4 font-medium text-center my-auto">
           {{ description }}

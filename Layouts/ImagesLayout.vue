@@ -14,8 +14,11 @@
     <section
       class="p-10 w-full bg-slate-100 bg-opacity-50 h-full overflow-y-auto"
     >
-      <section class="grid grid-cols-3 gap-2 content-around" v-if="showSellers">
-        <article v-for="seller in fullSellerData">
+      <section
+        class="flex flex-col w-full md:grid md:grid-cols-3 md:gap-2 content-around"
+        v-if="showSellers"
+      >
+        <article v-for="seller in fullSellerData" class="py-4 md:py-0">
           <seller-box
             :url="seller.url"
             :description="seller.description"
