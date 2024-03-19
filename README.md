@@ -1,75 +1,57 @@
-# Nuxt 3 Minimal Starter
+# Aplicación Desafío de Alegra!
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Bienvenido a la **Carrera de Imágenes de Alegra**, una aplicación dinámica donde los vendedores compiten por mostrar su mejor imagen a los clientes. ¿Están listos para destacarse y llegar entre los primeros? Solo necesitan adquirir 20 puntos, y cada votación otorga 1 punto. ¡Prueba la demo y participa en la diversión!
 
-## Setup
+## Demo
 
-Make sure to install the dependencies:
+Visita [alegra-xiv.surge.sh](https://alegra-xiv.surge.sh) para probar la demo en vivo.
 
-```bash
-# npm
-npm install
+## Acerca del Proyecto
 
-# pnpm
-pnpm install
+Esta aplicación invita a los vendedores a aportar con su mejor imagen para el deleite de los clientes. El objetivo es sencillo: alcanzar los 20 puntos a través de las votaciones de los usuarios. Cada voto es un paso adelante hacia la victoria.
 
-# yarn
-yarn install
+## Stack Tecnológico
 
-# bun
-bun install
-```
+Este proyecto ha sido desarrollado utilizando un poderoso conjunto de tecnologías modernas, asegurando una experiencia de usuario fluida y una arquitectura robusta:
 
-## Development Server
+![Nuxt.js](https://img.shields.io/badge/-Nuxt.js-00DC82?style=for-the-badge&logo=nuxt.js&logoColor=white)
+![Vue 3](https://img.shields.io/badge/-Vue%203-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-Start the development server on `http://localhost:3000`:
+- **Nuxt.js**: Un framework intuitivo basado en Vue que simplifica el desarrollo web, proporcionando una estructura clara y herramientas poderosas.
+- **Vue 3**: La última versión de Vue, el framework progresivo para construir interfaces de usuario, que trae composición API, mejor rendimiento y más.
+- **Tailwind CSS**: Un framework CSS de utilidad primera que permite un diseño rápido y responsivo con clases personalizables directamente en el marcado.
 
-```bash
-# npm
-npm run dev
+### Servicios Utilizados
 
-# pnpm
-pnpm run dev
+La aplicación hace uso de dos servicios clave para su funcionamiento:
 
-# yarn
-yarn dev
+1. **Unsplash API**: Para obtener una amplia gama de imágenes de alta calidad. Esta API ofrece acceso a miles de fotos proporcionadas por fotógrafos de todo el mundo, permitiéndonos mostrar las mejores imágenes a nuestros usuarios.
 
-# bun
-bun run dev
-```
+2. **Alegra API**: Utilizamos dos endpoints principales de Alegra:
+   - `GET /sellers`: Para obtener la lista de vendedores participantes.
+   - `POST /invoices`: Para crear facturas asociadas a las compras de los usuarios en la plataforma.
 
-## Production
+## Instalación
 
-Build the application for production:
+Para instalar y ejecutar el proyecto en tu entorno local, sigue estos pasos:
 
-```bash
-# npm
-npm run build
+### Requisitos Previos
 
-# pnpm
-pnpm run build
+Asegúrate de tener instalado [Node.js](https://nodejs.org/) (que incluye npm) en tu sistema.
 
-# yarn
-yarn build
+### Pasos
 
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+1. Clona el repositorio en tu máquina local:
+   ```bash
+   git clone git@github.com:Xidrovo/alegra-challenge-XIV.git
+   cd alegra-challenge-XIV
+   ```
+2. Instala las dependencias del proyecto:
+   ```bash
+   npm install
+   ```
+3. Ejecuta el proyecto en modo desarrollo:
+   ```bash
+   npm run dev
+   ```
