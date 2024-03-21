@@ -1,7 +1,7 @@
 <template>
   <Modal
     :ConfirmButtonText="'¡Crear factura!'"
-    :buttonActionEnabled="Object.keys(cart).length > 0 || !loading"
+    :buttonActionEnabled="buttonEnabled"
     @confirm-button-action="createInvoice()"
   >
     <section class="px-2 md:px-0 md:w-2/3 mx-auto">
@@ -61,6 +61,11 @@
         invoiceText: ''
       }
     },
+    computed: {
+      buttonEnabled() {
+        return Object.keys(this.cart).length > 0 && !this.loading
+      }
+    },
     props: {
       sellerId: {
         type: String,
@@ -85,15 +90,19 @@
       },
       async createInvoice() {
         const config = useRuntimeConfig()
-        const invoice = await createInvoice(
-          config.public.alegraApiKey,
-          Object.values(this.cart),
-          this.sellerId
-        )
-        this.invoiceText =
-          invoice?.status === 200
-            ? '¡Factura creada correctamente!'
-            : '¡Ha ocurrido algo al crear la factura!'
+        this.loading = true
+        try {
+          const invoice = await createInvoice(
+            config.public.alegraApiKey,
+            Object.values(this.cart),
+            this.sellerId
+          )
+          this.invoiceText = '¡Factura creada correctamente!'
+        } catch (error) {
+          this.invoiceText = '¡Ha ocurrido algo al crear la factura!'
+        } finally {
+          this.loading = false
+        }
       }
     }
   }

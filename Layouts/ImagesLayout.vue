@@ -9,7 +9,7 @@
       <Searcher @load-vendors="loadVendors" @new-search="addNewSession" />
     </header>
     <section
-      class="p-8 w-full bg-slate-100 bg-opacity-50 h-full overflow-y-auto h-3/4"
+      class="p-8 w-full bg-slate-100 bg-opacity-50 overflow-y-auto h-3/4"
     >
       <section
         class="flex flex-col w-full md:grid md:grid-cols-3 md:gap-2 content-around"
