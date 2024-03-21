@@ -1,10 +1,15 @@
 <template>
-  <ImagesLayout />
+  <body>
+    <ImagesLayout />
+  </body>
 </template>
 <script setup>
   import ImagesLayout from './Layouts/ImagesLayout.vue'
 </script>
-<style>
+<style scoped>
+  * {
+    box-sizing: border-box;
+  }
   body {
     background: rgb(205, 239, 236);
     background: linear-gradient(

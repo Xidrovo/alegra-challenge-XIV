@@ -1,18 +1,15 @@
 <template lang="">
-  <div class="h-screen min-w-full relative">
+  <div class="min-h-screen h-screen min-w-full relative">
     <header
-      class="bg-primary bg-opacity-25 flex flex-col justify-center items-center"
+      class="bg-primary bg-opacity-25 flex flex-col justify-around items-center h-1/4"
     >
-      <section class="py-2">
+      <section class="py-4 flex flex-col justify-center">
         <img src="/logo.svg" alt="Logo" />
-      </section>
-      <section class="pb-4 font-semibold text-2xl">
-        <h2>Imágenes del mundo</h2>
       </section>
       <Searcher @load-vendors="loadVendors" @new-search="addNewSession" />
     </header>
     <section
-      class="p-10 w-full bg-slate-100 bg-opacity-50 h-full overflow-y-auto"
+      class="p-8 w-full bg-slate-100 bg-opacity-50 h-full overflow-y-auto h-3/4"
     >
       <section
         class="flex flex-col w-full md:grid md:grid-cols-3 md:gap-2 content-around"

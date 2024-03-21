@@ -4,16 +4,16 @@
     :buttonActionEnabled="Object.keys(cart).length > 0 || !loading"
     @confirm-button-action="createInvoice()"
   >
-    <section class="w-2/3 mx-auto">
+    <section class="px-2 md:px-0 md:w-2/3 mx-auto">
       <p v-if="invoiceText" class="text-4xl text-center py-4 font-semibold">
         {{ invoiceText }}
       </p>
-      <h1 class="text-center text-2xl">
+      <h1 class="text-left py-4 md:py-0 md:text-center text-2xl">
         ¡Vaya parece que
         <strong class="font-semibold text-primary">{{ winner }}</strong> ha
         ganado!
       </h1>
-      <p class="text-center text-xl py-2">
+      <p class="text-left md:text-center text-xl py-2">
         ¡Ha llegado el momento de la acción! Realiza una compra y tu factura
         será elaborada por el vendedor ganador. ¡Es tu oportunidad de elegir
         entre una amplia selección de juegos! Sumérgete en aventuras épicas,
@@ -24,7 +24,7 @@
       <section class="flex flex-wrap py-8 space-x-4 justify-around">
         <article
           v-for="videogame in videogames"
-          class="w-1/4 py-4 flex flex-col justify-between"
+          class="w-full py-8 md:w-1/4 md:py-4 flex flex-col justify-between"
         >
           <ItemCard
             :item="videogame"

@@ -1,16 +1,18 @@
 <template lang="">
-  <section class="flex flex-col space-y-4 items-center w-1/2 mx-auto">
+  <section
+    class="flex flex-col space-y-2 items-center w-1/2 mx-auto justify-between"
+  >
     <input
       v-model="searchTerm"
       @keyup.enter="getImages"
       placeholder="Buscar..."
       type="text"
-      class="rounded-lg px-8 py-4 min-w-full"
+      class="rounded-lg px-8 py-2 min-w-full"
     />
     <button
       @click="getImages"
       :class="[
-        'h-12 rounded-lg px-8 py-2 bg-secondary text-white font-semibold disabled:bg-secondary-dark ',
+        'rounded-lg px-8 py-2 bg-secondary text-white font-semibold disabled:bg-secondary-dark ',
         `${!loading ? 'hover:bg-secondary-light' : 'cursor-not-allowed'}`
       ]"
       :disabled="loading"

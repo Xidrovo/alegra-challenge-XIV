@@ -23,10 +23,10 @@
         <p>{{ sellerData.name }}</p>
       </section>
     </section>
-    <article class="absolute bottom-0 flex w-full md:h-1/4">
-      <div
-        class="relative px-2 md:py-4 bg-secondary bg-opacity-75 w-full rounded-b-lg"
-      >
+    <article
+      class="absolute bottom-0 flex w-full max-h-32 md:h-1/4 overflow-y-auto bg-secondary bg-opacity-75"
+    >
+      <div class="relative px-2 md:py-4 w-full rounded-b-lg">
         <p class="text-xl px-2 py-4 font-medium text-center my-auto">
           {{ description }}
         </p>
