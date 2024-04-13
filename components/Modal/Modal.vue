@@ -4,9 +4,7 @@
     ref="modalContainer"
     @click.self="$emit('exitButtonAction')"
   >
-    <div
-      class="bg-white min-w-1/2 mx-auto min-h-1/2 max-w-full max-h-full px-8 py-4 flex flex-col justify-between rounded-lg overflow-y-auto"
-    >
+    <div :class="modalClass">
       <header class="flex flex-row justify-between w-full">
         <p>{{ title }}</p>
         <button
@@ -43,6 +41,11 @@
   export default {
     name: 'Modal',
     emits: ['exitButtonAction', 'confirmButtonAction'],
+    computed: {
+      modalClass() {
+        return `bg-white mx-auto max-w-full max-h-full px-8 py-4 flex flex-col justify-between rounded-lg overflow-y-auto ${this.modalWidth}`
+      }
+    },
     props: {
       title: {
         type: String,
@@ -63,6 +66,10 @@
       buttonActionEnabled: {
         type: Boolean,
         default: true
+      },
+      modalWidth: {
+        type: String,
+        default: ''
       }
     }
   }

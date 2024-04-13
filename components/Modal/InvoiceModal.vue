@@ -1,10 +1,11 @@
 <template>
   <Modal
-    :ConfirmButtonText="'¡Crear factura!'"
+    :ConfirmButtonText="showCrearFactura"
     :buttonActionEnabled="buttonEnabled"
+    :modalWidth="modalWidth"
     @confirm-button-action="createInvoice()"
   >
-    <section class="px-2 md:px-0 md:w-2/3 mx-auto">
+    <section class="px-2 md:px-0 md:w-2/3 mx-auto" v-if="!showInvoice">
       <p v-if="invoiceText" class="text-4xl text-center py-4 font-semibold">
         {{ invoiceText }}
       </p>
@@ -28,7 +29,7 @@
         >
           <ItemCard
             :item="videogame"
-            @acttion-button-clicked="addRemoveCart"
+            @action-button-clicked="addRemoveCart"
             :actionButtonName="
               isInCart(videogame.id)
                 ? 'Quitar del carrito'
@@ -38,14 +39,99 @@
         </article>
       </section>
     </section>
+    <!-- Should move the code below to a new subComponent maybe -->
+    <!-- Invoice information section -->
+    <section class="px-2 md:px-0 md:w-2/3 mx-auto min-w-full" v-else>
+      <article class="space-y-4 mb-4">
+        <img src="/logo.svg" alt="Logo" />
+        <p class="text-primary text-2xl font-semibold text-left mb-4">
+          ¡Gracias por comprar!
+        </p>
+      </article>
+      <section
+        class="flex flex-col md:flex-row justify-between space-y-12 md:space-y-0 md:space-x-12 py-4"
+      >
+        <article class="w-full md:w-1/2">
+          <p class="font-semibold pb-4 text-secondary">
+            Información del cliente
+          </p>
+          <div class="w-full flex justify-between">
+            <label class="font-semibold">Nombre:</label>
+            <p class="text-left w-1/2">{{ invoice.clientInfo.name }}</p>
+          </div>
+          <div class="w-full flex justify-between">
+            <label class="font-semibold">Identification:</label>
+            <p class="text-left w-1/2">
+              {{ invoice.clientInfo.identification }}
+            </p>
+          </div>
+          <div class="w-full flex justify-between">
+            <label class="font-semibold">Email:</label>
+            <p class="text-left w-1/2">
+              {{ invoice.clientInfo.email }}
+            </p>
+          </div>
+        </article>
+        <article class="w-full md:w-1/2">
+          <p class="font-semibold pb-4 text-secondary">
+            Información del vendedor
+          </p>
+          <div class="w-full flex justify-between">
+            <label class="font-semibold">Nombre:</label>
+            <p class="text-left w-1/2">{{ invoice.seller.name }}</p>
+          </div>
+          <div class="w-full flex justify-between">
+            <label class="font-semibold">Identification:</label>
+            <p class="text-left w-1/2">
+              {{ invoice.seller.identification }}
+            </p>
+          </div>
+        </article>
+      </section>
+      <!-- item table information -->
+      <section class="w-full my-4">
+        <table class="w-full table-auto border">
+          <thead class="bg-primary-light">
+            <tr class="table-row">
+              <th>No.</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in invoice.items">
+              <th>{{ index + 1 }}</th>
+              <th>{{ item.name }}</th>
+              <th>{{ item.quantity }}</th>
+              <th>${{ item.total }}</th>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <!-- Pricing -->
+      <section class="mb-4">
+        <div class="flex justify-end space-x-4">
+          <label class="font-semibold">Subtotal:</label>
+          <p class="w-1/4 text-right">{{ invoice.subtotal }}</p>
+        </div>
+        <div class="flex justify-end space-x-4">
+          <label class="font-semibold">Tax({{ invoice.tax }}%): </label>
+          <p class="w-1/4 text-right">0</p>
+        </div>
+        <div class="flex justify-end space-x-4">
+          <label class="font-semibold">Total:</label>
+          <p class="w-1/4 text-right">{{ invoice.total }}</p>
+        </div>
+      </section>
+    </section>
   </Modal>
 </template>
 
 <script>
   import Modal from './Modal.vue'
   import ItemCard from '../ItemCard.vue'
-  import { videogames } from '../../utils/items.js'
-  import { createInvoice } from '../../services/alegraService'
+  import { getItems, createInvoice } from '../../services/alegraService'
   import { useRuntimeConfig } from '#app'
 
   export default {
@@ -58,12 +144,21 @@
       return {
         cart: {},
         loading: false,
-        invoiceText: ''
+        invoiceText: '',
+        videogames: [],
+        invoice: {},
+        showInvoice: true
       }
     },
     computed: {
       buttonEnabled() {
         return Object.keys(this.cart).length > 0 && !this.loading
+      },
+      showCrearFactura() {
+        return this.showInvoice ? '' : '¡Crear factura!'
+      },
+      modalWidth() {
+        return !this.showInvoice ? 'w-full' : 'w-full md:w-1/2'
       }
     },
     props: {
@@ -75,6 +170,10 @@
         type: String,
         default: 'Seller'
       }
+    },
+    async mounted() {
+      const config = useRuntimeConfig()
+      this.videogames = (await getItems(config.public.alegraApiKey)) || []
     },
     methods: {
       addRemoveCart(item) {
@@ -92,12 +191,13 @@
         const config = useRuntimeConfig()
         this.loading = true
         try {
-          const invoice = await createInvoice(
+          this.invoice = await createInvoice(
             config.public.alegraApiKey,
             Object.values(this.cart),
             this.sellerId
           )
-          this.invoiceText = '¡Factura creada correctamente!'
+          // this.invoice = { ...this.invoice }
+          this.showInvoice = true
         } catch (error) {
           this.invoiceText = '¡Ha ocurrido algo al crear la factura!'
         } finally {
@@ -107,3 +207,19 @@
     }
   }
 </script>
+<style scoped>
+  tbody tr:nth-child(odd) {
+    background-color: #e9b4a8;
+  }
+  tbody tr:nth-child(even) {
+    background-color: #f1f5f9;
+  }
+
+  th {
+    /* font-bold p-2 border-b text-left */
+    font-weight: 600;
+    text-align: left;
+    padding: 0.5rem;
+    border-bottom-width: 1px;
+  }
+</style>

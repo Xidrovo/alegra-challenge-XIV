@@ -1,5 +1,5 @@
 <template>
-  <Modal>
+  <Modal :fullSize="false">
     <article class="relative h-full w-full py-2 overflow-auto min-h-64">
       <a
         :href="fullUrl"

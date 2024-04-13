@@ -31,6 +31,26 @@ export const getSellers = async (accessKey) => {
   }
 }
 
+export const getItems = async (accessKey) => {
+  const api = getAlegraAPIInstance(accessKey)
+  try {
+    const response = await api.get(`v1/items?order_field=id`)
+    return response.data.map((data) => {
+      const itemObject = {
+        id: data.id,
+        name: data.name,
+        price: data.price[0].price,
+        description: data.description || data.name,
+        imgURl: data.images[0].url
+      }
+      return itemObject
+    })
+  } catch (error) {
+    console.error('Error fetching items from Alegra:', error)
+    throw error
+  }
+}
+
 /**
  * Service that creates an invoice and uses an input which contains an array of values
  *
@@ -48,18 +68,41 @@ export const createInvoice = async (accessKey, items, sellerId) => {
   const tomorrow = new Date()
 
   tomorrow.setDate(tomorrow.getDate() + 1)
-  const data = {
+  const input = {
     status: 'open',
     date: formateDate(today),
     dueDate: formateDate(tomorrow),
     seller: sellerId,
-    client: uuid.v1(),
+    client: { id: 1 },
     items: items
   }
   try {
-    const response = await api.post(url, data)
-    console.log('Invoice Created:', { status: 200, ...response.data })
-    return { status: 200, ...response.data }
+    const response = await api.post(url, input)
+    const { data } = response
+    const invoiceInfo = {
+      id: data.id,
+      subtotal: data.subtotal,
+      tax: data.tax,
+      total: data.total,
+      clientInfo: {
+        id: data.client.id,
+        name: data.client.name,
+        email: data.client.email,
+        identification: data.client.identification
+      },
+      seller: data.seller,
+      items: data.items.map((item) => {
+        return {
+          name: item.name,
+          price: item.price,
+          id: item.id,
+          total: item.total,
+          quantity: item.quantity
+        }
+      })
+    }
+    console.log('Invoice Created:', invoiceInfo)
+    return invoiceInfo
   } catch (error) {
     console.error(
       'Error creating invoice:',

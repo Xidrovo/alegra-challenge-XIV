@@ -9,7 +9,7 @@
     <p class="text-2xl font-semibold py-2">${{ item.price }}</p>
     <button
       class="py-2 px-4 bg-secondary text-white font-semibold rounded-md"
-      @click="$emit('acttionButtonClicked', item)"
+      @click="$emit('actionButtonClicked', { quantity: 1, ...item })"
     >
       {{ actionButtonName }}
     </button>
@@ -19,7 +19,7 @@
 <script>
   export default {
     name: 'ItemCard',
-    emit: ['acttionButtonClicked'],
+    emits: ['actionButtonClicked'],
     props: {
       item: {
         type: Object,
