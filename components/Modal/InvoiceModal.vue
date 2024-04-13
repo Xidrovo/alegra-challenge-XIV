@@ -147,7 +147,7 @@
         invoiceText: '',
         videogames: [],
         invoice: {},
-        showInvoice: true
+        showInvoice: false
       }
     },
     computed: {
@@ -173,7 +173,8 @@
     },
     async mounted() {
       const config = useRuntimeConfig()
-      this.videogames = (await getItems(config.public.alegraApiKey)) || []
+      const items = await getItems(config.public.alegraApiKey)
+      this.videogames = [...items] || []
     },
     methods: {
       addRemoveCart(item) {
